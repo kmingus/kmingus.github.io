@@ -1,7 +1,335 @@
 <!DOCTYPE html>
 <html>
+<head><title>Capstone Working Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin="">	 
+<link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css">
+<link rel="stylesheet" href="MarkerCluster.css">
+<link rel="stylesheet" href="MarkerCluster.Default.css">
+<script src="schools.js"></script>
+<script src="city_limits.js"></script>
+<script src="zoning_text.js"></script>
+<script src="EHS_Points.js"></script>
+<script src="River_North_Pin.js"></script>
+<script src="Loop_Pin.js"></script>
+<script src="South_Loop_Pin.js"></script>
+<script src="South_Side_Pin.js"></script>
+<script src="Southwest_Side_Pin.js"></script>
+<script src="Far_Southeast_Pin.js"></script>
+<script src="Far_Southwest_Pin.js"></script>
+<script src="West_Town_Pin.js"></script>
+<script src="Lower_West_Side_Pin.js"></script>
+<script src="Far_West_Side_Pin.js"></script>
+<script src="North_Side_Pin.js"></script>
+<script src="Far_North_Side_Pin.js"></script>
+<script src="NW_Pin.js"></script>
+<script src="Near_West_Side_Pin.js"></script>
+<style> body {background-color: silver;}
+h1 {color: tomato;}
+h1 {font-family: helvetica;}
+h2 {font-family: verdana;}
+h2 {color: darkkhaki;}
+p {color: maroon;}
+p {border: 2px solid black;}
+.center {
+ border: 5px solid;
+ position: absolute;
+ width: 1200px;
+ height: 600px;
+ top: 50%;
+left: 50%;
+ transform: translate(-50%, -50%);
+ padding: 10px;
+}
+.box {
+  width:300px;
+  position:absolute; 
+  top:152px; 
+  left:1580px;
+  border-style:solid;
+  border-color:solid black;
+  border-width:2px;
+  word-wrap: break-word;
+}​
+</style>
+<style>
+footer {
+  text-align: center;
+  padding: 3px;
+  background-color: Silver;
+  color: white;
+}
+</style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+<script src="https://unpkg.com/esri-leaflet@3.0.10/dist/esri-leaflet.js"></script>
+<script src="https://unpkg.com/esri-leaflet-vector@4.1.0/dist/esri-leaflet-vector.js"></script> 
+<script src="https://unpkg.com/esri-leaflet-geocoder"></script> 
+<script src="leaflet.markercluster.js"></script>
+ <tr bgcolor="#003399"> 
+   <td> 
+     <div align="center"><b><font face="Arial, Helvetica, sans-serif" size="7" color="#FFFFFF">Capstone Working Map </font></b></div>
+   </td>
+ </tr>
+ <div class="center" id="map"></div>
+<script>
+	function getColor(d) {
+		return d === 1 ? '#feedde' :
+			d === 2  ? '#fdbe85' :
+			d === 3  ? '#fd8d3c' :
+			d === 4  ? '#e6550d' :
+			d === 5  ? '#a63603' :
+			 
+			'#000000';
+	}
+
+	function style(feature) {
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'gray',
+			dashArray: '3',
+			fillOpacity: 0.7,
+			fillColor: getColor(feature.properties.Total_Dist_Count)
+		};
+	}
+function polystyle(feature) {
+    return {
+        color: 'blue',
+        fillOpacity: 0.0
+    };
+}
+  const geojsonMarkerOptions = {
+    radius: 6,
+    fillColor: '#d95f0e',
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8,
+  };
+
+var ehs = L.geoJSON(ehspoints, {
+	onEachFeature: function (feature, layer) {
+    layer.bindPopup(feature.properties.USER_Property_Name + "</br>" + feature.properties.USER_Address + ", " + feature.properties.USER_Zip_Code + "</br>" + 
+	feature.properties.USER_Phone_Number + "</br>" + "Bus Stop Density: " + feature.properties.Bus_Stop_Density + "</br>Nearby Schools: " + feature.properties.Nearby_Schools
+	+ "</br>Nearby El Stops:" + feature.properties.Nearby_El_Stops + "</br>Nearby Parks:" + feature.properties.Nearby_Parks)
+	},
+	   pointToLayer: function (feature, latlng) {
+      return L.circleMarker(latlng, geojsonMarkerOptions);
+    },
+});
+var zones = L.geoJSON(zoning, {
+	onEachFeature: function (feature, layer) {
+	layer.bindPopup("Zone Type: " + feature.properties.Zone_Text + "</br>Zone Class: " + feature.properties.ZONE_CLASS)
+	}
+});
+var citylimits = L.geoJSON(city_limits, {style:polystyle});
+var RN_Parcels = L.geoJSON(rn_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	} 
+});
+var Loop_Parcels = L.geoJSON(loop_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}
+});
+var SLoop_Parcels = L.geoJSON(sloop_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var South_Side_Parcels = L.geoJSON(south_side_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var SWS_Parcels = L.geoJSON(sws_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var FSE_Parcels = L.geoJSON(fse_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var FSW_Parcels = L.geoJSON(fsw_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var WT_Parcels = L.geoJSON(wt_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var LWS_Parcels = L.geoJSON(lws_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var FWS_Parcels = L.geoJSON(fws_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var NS_Parcels = L.geoJSON(ns_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var FNS_Parcels = L.geoJSON(fns_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var NWS_Parcels = L.geoJSON(nearwest_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var NW_Parcels = L.geoJSON(nw_par, {
+	style: style,
+	onEachFeature: function (feature, layer) {
+		layer.bindPopup("Parcel ID: " + feature.properties.pin10 + "</br>Total Number of Special Districts:" + feature.properties.Total_Dist_Count + "</br>TIF District: " + feature.properties.TIF_Text + 
+		"</br>US Treasury Opportunity Zone:" + feature.properties.UST_Text + "</br>HUD Qualified Census Tract/Difficult to Develop Area:" + feature.properties.QCT_Text + "</br>New Market Tax Credit Area:" 
+		+ feature.properties.NMCT_Text + "</br>IRS Opportunity Zone Area:" + feature.properties.IRS_Text + "</br>IHDA Opportunity Area:" + feature.properties.IHDA_Text)
+	}	
+});
+var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+});
+var osmHOT = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap contributors, Tiles style by Humanitarian OpenStreetMap Team hosted by OpenStreetMap France'});
+var map = L.map('map', {
+    center: [41.878113, -87.629799],
+    zoom: 12,
+    layers: [osm, ehs]
+});
+var baseMaps = {
+	"Base Map Style 1": osm,
+    "Base Map Style 2": osmHOT
+};
+var overlayMaps = {
+	"Existing Affordable Housing Sites": ehs,
+	"Chicago City Limits" : citylimits,
+	"Zoning" : zones,
+	"Special District Parcels - River North" : RN_Parcels,
+	"Special District Parcels - Loop" : Loop_Parcels,
+	"Special District Parcels - South Loop" : SLoop_Parcels,
+	"Special District Parcels - South Side" : South_Side_Parcels,
+	"Special District Parcels - Southwest Side" : SWS_Parcels,
+	"Special District Parcels - Far Southeast Side" : FSE_Parcels,
+	"Special District Parcels - Far Southwest Side" : FSW_Parcels,
+	"Special District Parcels - West Town" : WT_Parcels,
+	"Special District Parcels - Lower West Side" : LWS_Parcels,
+	"Special District Parcels - Far West Side" : FWS_Parcels,
+	"Special District Parcels - North Side" : NS_Parcels,
+	"Special District Parcels - Far North Side" : FNS_Parcels,
+	"Special District Parcels - Near West Side" : NWS_Parcels,
+	"Special District Parcels - Northwest Side" : NW_Parcels
+	
+};
+var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+L.control.scale().addTo(map);
+
+var north = L.control({position: "bottomright"});
+north.onAdd = function(map) {
+    var div = L.DomUtil.create("div", "info legend");
+    div.innerHTML = '<img src="transparent-north-arrow-2.png">';
+    return div;
+}
+north.addTo(map);
+
+const apiKey = "AAPK049e56187c2c463aa408bd796e92ea392yU-7kx6dycDJJw375-KYOF_OCdnPoyMSFcPgEydo3xgNl3IxYLp3n5a_loYG-6o";
+
+var searchControl = L.esri.Geocoding.geosearch({
+		position: "topright",
+        placeholder: "Enter an address or place e.g. 1 York St",
+        useMapBounds: false,
+        providers: [
+          L.esri.Geocoding.arcgisOnlineProvider({
+            apikey: apiKey,
+			
+          })
+        ]
+      }).addTo(map);
+</script>
+<p class="box">
+<font face="Verdana, Arial, Helvetica, sans-serif" size="-1" color="black"><strong>How to Use Map:</strong><br><br>If you would like to look at a specific location, use the Search button (the magnifying glass) in the 
+upper-right corner to search for a specific address within Chicago.<br><br>Use the Layers button (the stacked pages) in the upper-right corner of the map to toggle different data layers on and off.<br><br>
+Click on the feature you are interested in to activate a pop-up with additional information about that feature.</font></p>
+<p class="box" style="top: 412px;">
+<font face="Verdana, Arial, Helvetica, sans-serif" size="-1" color="black"><strong>Explanation of Data (continued):</strong><br><br>Special District Parcels:<br><br>
+-These layers show the number of special districts that overlay each parcel within the city of Chicago. Each special district indicates a local, state, or federal incentive that applies to new development 
+within the parcel. The darker the color of the parcel, the more special districts are applicable to the parcel.<br><br>
+-Additional information about each district type and their associated incentive programs can be found at the below links:<br><br><br>
+<a href="https://www.chicago.gov/city/en/depts/dcd/provdrs/tif.html">Tax Increment Finacing (TIF) Districts</a>
+<br><a href="https://opportunityzones.hud.gov/">US Treasury Opportunity Zones</a>
+<br><a href="https://www.huduser.gov/portal/datasets/lihtc.html">HUD Qualified Census Tracts/Difficult to Develop Areas</a>
+<br><a href="https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit">New Market Tax Credit Areas</a>
+<br><a href="https://www.irs.gov/credits-deductions/businesses/opportunity-zones">IRS Opportunity Zone Areas</a>
+<br><a href="https://www.ihda.org/developers/market-research/opportunity-areas/">Illinois Housing Development Authority (IHDA) Opportunity Areas</a></font></p>
+<p style="top:375px; width:325px; position:absolute; border-style:solid; border-color:solid black; border-width:2px; word-wrap: break-word;">
+<font face="Verdana, Arial, Helvetica, sans-serif" size="-1" color="black"><strong>Explanation of Data:</strong><br><br>Existing Affordable Housing Sites:<br><br>-Each point identifies the name, 
+location, and contact information for existing affordable housing sites within Chicago.<br>-The Bus Stop Density Value indicates how many CTA bus stops are nearby; a value of 0 
+indicates no nearby stops, a value of 500000 indicates a very high density of stops.<br>-Nearby Schools, El Stops, and Parks show the number of each facility within 1/4 mile of the housing site.<br><br>
+Chicago City Limits:<br><br>-This layer allows the user to toggle the Chicago city limits on/off of the map. The data presented in this map is limited to the city of Chicago.<br><br>
+Zoning:<br><br>-The zoning layer indicates the zoning type and code for each location in the city.<br>-Additional information about zoning can be found through 
+<a href="https://www.chicago.gov/content/dam/city/depts/bldgs/general/Self_Cert_Program/2019/14-ZONING.pdf">The City of Chicago Zoning 101 Guide</a> 
+and <a href="https://www.chicago.gov/content/dam/city/depts/bacp/Small%20Business%20Center/chicagobusinesszoningguide20230321.pdf">the Chicago Business Zoning Guide.</a></font></p>
+<img src="capstoneLegend.png" alt="Legend" style="border:2px solid; position:absolute; top:167px;">
+<footer>
+  <p style="color:black; position:relative; top:828px;"> Author: Kyle Mingus <a href="mailto:kyle.mingus@gmail.com">kyle.mingus@gmail.com</a><br>
+  Data Sources: Author, City of Chicago, State of Illinois, US Treasury Department, Internal Revenue Service, US Department of Housing and Urban Development.
+  </p>
+</footer>
 </body>
 </html>
