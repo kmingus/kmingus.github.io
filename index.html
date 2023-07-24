@@ -36,11 +36,9 @@ p {border: 2px solid black;}
  border: 5px solid;
  position: absolute;
  width: 1200px;
- height: 600px;
- top: 50%;
-left: 50%;
- transform: translate(-50%, -50%);
- padding: 10px;
+ height: 700px;
+ left: 352px;
+ top: 170px;
 }
 .box {
   width:300px;
@@ -63,6 +61,7 @@ footer {
 </style>
 </head>
 <body>
+<div style="min-width: 960px; margin: 0 auto;">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
@@ -325,11 +324,12 @@ Chicago City Limits:<br><br>-This layer allows the user to toggle the Chicago ci
 Zoning:<br><br>-The zoning layer indicates the zoning type and code for each location in the city.<br>-Additional information about zoning can be found through 
 <a href="https://www.chicago.gov/content/dam/city/depts/bldgs/general/Self_Cert_Program/2019/14-ZONING.pdf">The City of Chicago Zoning 101 Guide</a> 
 and <a href="https://www.chicago.gov/content/dam/city/depts/bacp/Small%20Business%20Center/chicagobusinesszoningguide20230321.pdf">the Chicago Business Zoning Guide.</a></font></p>
-<img src="capstoneLegend.PNG" alt="Legend" style="border:2px solid; position:absolute; top:167px;">
+<img src="capstoneLegend.png" alt="Legend" style="border:2px solid; position:absolute; top:167px;">
 <footer>
   <p style="color:black; position:relative; top:828px;"> Author: Kyle Mingus <a href="mailto:kyle.mingus@gmail.com">kyle.mingus@gmail.com</a><br>
   Data Sources: Author, City of Chicago, State of Illinois, US Treasury Department, Internal Revenue Service, US Department of Housing and Urban Development.
   </p>
 </footer>
+</div>
 </body>
 </html>
