@@ -50,10 +50,16 @@ p {border: 2px solid black;}
   border-width:2px;
   word-wrap: break-word;
 }​
+#wrapper {
+    margin-left:auto;
+    margin-right:auto;
+    width:960px;
+}
 </style>
 <style>
 footer {
   text-align: center;
+  width: 1800px;
   padding: 3px;
   background-color: Silver;
   color: white;
@@ -61,7 +67,7 @@ footer {
 </style>
 </head>
 <body>
-<div style="min-width: 960px; margin: 0 auto;">
+<div id="wrapper">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
@@ -69,12 +75,8 @@ footer {
 <script src="https://unpkg.com/esri-leaflet-vector@4.1.0/dist/esri-leaflet-vector.js"></script> 
 <script src="https://unpkg.com/esri-leaflet-geocoder"></script> 
 <script src="leaflet.markercluster.js"></script>
- <tr bgcolor="#003399"> 
-   <td> 
-     <div align="center"><b><font face="Arial, Helvetica, sans-serif" size="7" color="#FFFFFF">Capstone Working Map </font></b></div>
-   </td>
- </tr>
- <div class="center" id="map"></div>
+<div align="center" style="width: 1800px;"><b><font face="Arial, Helvetica, sans-serif" size="7" color="#FFFFFF">Capstone Working Map </font></b></div>
+<div class="center" id="map"></div>
 <script>
 	function getColor(d) {
 		return d === 1 ? '#feedde' :
