@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><title>Chicago Affordable Housing Map</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chicago Affordable Housing Map</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin="">	 
@@ -30,39 +34,41 @@ h1 {color: tomato;}
 h1 {font-family: helvetica;}
 h2 {font-family: verdana;}
 h2 {color: darkkhaki;}
-p {color: maroon;}
-p {border: 2px solid black;}
+
 .center {
  border: 5px solid;
- position: absolute;
- width: 1200px;
- height: 700px;
- left: 352px;
- top: 170px;
+ position: relative;
+ width: 100%;
+ height: 40vw;
 }
 .box {
-  width:300px;
-  position:absolute; 
-  top:152px; 
-  left:1580px;
-  border-style:solid;
-  border-color:solid black;
-  border-width:2px;
-  word-wrap: break-word;
+  float:left;
+  width:100%;
+  position:relative; 
+  border: 5px solid;
+}
+.imgcenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }​
 #wrapper {
     margin-left:auto;
     margin-right:auto;
-    width:960px;
+	position:static;
+    width:100%;
+	height:100%;
 }
-</style>
-<style>
 footer {
   text-align: center;
-  width: 1875px;
   padding: 3px;
   background-color: Silver;
   color: white;
+   position: static;
+      bottom: 0;
+      width: 100%;
+      height: 4.5rem; 
 }
 </style>
 </head>
@@ -75,7 +81,7 @@ footer {
 <script src="https://unpkg.com/esri-leaflet-vector@4.1.0/dist/esri-leaflet-vector.js"></script> 
 <script src="https://unpkg.com/esri-leaflet-geocoder"></script> 
 <script src="leaflet.markercluster.js"></script>
-<div align="center" style="width: 1875px;"><b><font face="Arial, Helvetica, sans-serif" size="7" color="#FFFFFF">Chicago Affordable Housing Map </font></b></div>
+<div align="center" <b><font face="Arial, Helvetica, sans-serif" size="7" color="#FFFFFF">Chicago Affordable Housing Map </font></b></div>
 <div class="center" id="map"></div>
 <script>
 	function getColor(d) {
@@ -303,32 +309,32 @@ var searchControl = L.esri.Geocoding.geosearch({
         ]
       }).addTo(map);
 </script>
+<br>
+<img src="capstoneLegend.PNG" alt="Legend" class = "imgcenter" style="border:2px solid;max-width:100%;height:auto;width:auto;position:relative;">
 <p class="box">
 <font face="Verdana, Arial, Helvetica, sans-serif" size="-1" color="black"><strong>How to Use Map:</strong><br><br>If you would like to look at a specific location, use the Search button (the magnifying glass) in the 
 upper-right corner to search for a specific address within Chicago.<br><br>Use the Layers button (the stacked pages) in the upper-right corner of the map to toggle different data layers on and off.<br><br>
 Click on the feature you are interested in to activate a pop-up with additional information about that feature.</font></p>
-<p class="box" style="top: 412px;">
-<font face="Verdana, Arial, Helvetica, sans-serif" size="-1" color="black"><strong>Explanation of Data (continued):</strong><br><br>Special District Parcels:<br><br>
--These layers show the number of special districts that overlay each parcel within the city of Chicago. Each special district indicates a local, state, or federal incentive that applies to new development 
-within the parcel. The darker the color of the parcel, the more special districts are applicable to the parcel.<br><br>
--Additional information about each district type and their associated incentive programs can be found at the below links:<br><br><br>
-<a href="https://www.chicago.gov/city/en/depts/dcd/provdrs/tif.html">Tax Increment Finacing (TIF) Districts</a>
-<br><a href="https://opportunityzones.hud.gov/">US Treasury Opportunity Zones</a>
-<br><a href="https://www.huduser.gov/portal/datasets/lihtc.html">HUD Qualified Census Tracts/Difficult to Develop Areas</a>
-<br><a href="https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit">New Market Tax Credit Areas</a>
-<br><a href="https://www.irs.gov/credits-deductions/businesses/opportunity-zones">IRS Opportunity Zone Areas</a>
-<br><a href="https://www.ihda.org/developers/market-research/opportunity-areas/">Illinois Housing Development Authority (IHDA) Opportunity Areas</a></font></p>
-<p style="top:375px; width:325px; position:absolute; border-style:solid; border-color:solid black; border-width:2px; word-wrap: break-word;">
+<p class="box">
 <font face="Verdana, Arial, Helvetica, sans-serif" size="-1" color="black"><strong>Explanation of Data:</strong><br><br>Existing Affordable Housing Sites:<br><br>-Each point identifies the name, 
 location, and contact information for existing affordable housing sites within Chicago.<br>-The Bus Stop Density Value indicates how many CTA bus stops are nearby; a value of 0 
 indicates no nearby stops, a value of 500 indicates a very high density of stops.<br>-Nearby Schools, El Stops, and Parks show the number of each facility within 1/4 mile of the housing site.<br><br>
 Chicago City Limits:<br><br>-This layer allows the user to toggle the Chicago city limits on/off of the map. The data presented in this map is limited to the city of Chicago.<br><br>
 Zoning:<br><br>-The zoning layer indicates the zoning type and code for each location in the city.<br>-Additional information about zoning can be found through 
 <a href="https://www.chicago.gov/content/dam/city/depts/bldgs/general/Self_Cert_Program/2019/14-ZONING.pdf">The City of Chicago Zoning 101 Guide</a> 
-and <a href="https://www.chicago.gov/content/dam/city/depts/bacp/Small%20Business%20Center/chicagobusinesszoningguide20230321.pdf">the Chicago Business Zoning Guide.</a></font></p>
-<img src="capstoneLegend.PNG" alt="Legend" style="border:2px solid; position:absolute; top:167px;">
+and <a href="https://www.chicago.gov/content/dam/city/depts/bacp/Small%20Business%20Center/chicagobusinesszoningguide20230321.pdf">the Chicago Business Zoning Guide.</a><br><br>
+Special District Parcels:<br><br>
+-These layers show the number of special districts that overlay each parcel within the city of Chicago. Each special district indicates a local, state, or federal incentive that applies to new development 
+within the parcel. The darker the color of the parcel, the more special districts are applicable to the parcel.<br><br>
+-Additional information about each district type and their associated incentive programs can be found at the below links:<br><br>
+<a href="https://www.chicago.gov/city/en/depts/dcd/provdrs/tif.html">Tax Increment Finacing (TIF) Districts</a>
+<br><a href="https://opportunityzones.hud.gov/">US Treasury Opportunity Zones</a>
+<br><a href="https://www.huduser.gov/portal/datasets/lihtc.html">HUD Qualified Census Tracts/Difficult to Develop Areas</a>
+<br><a href="https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit">New Market Tax Credit Areas</a>
+<br><a href="https://www.irs.gov/credits-deductions/businesses/opportunity-zones">IRS Opportunity Zone Areas</a>
+<br><a href="https://www.ihda.org/developers/market-research/opportunity-areas/">Illinois Housing Development Authority (IHDA) Opportunity Areas</a></font></p></font></p>
 <footer>
-  <p style="color:black; position:relative; top:828px;"> Author: Kyle Mingus <a href="mailto:kyle.mingus@gmail.com">kyle.mingus@gmail.com</a><br>
+  <p> Author: Kyle Mingus <a href="mailto:kyle.mingus@gmail.com">kyle.mingus@gmail.com</a><br>
   Data Sources: Author, City of Chicago, State of Illinois, US Treasury Department, Internal Revenue Service, US Department of Housing and Urban Development.
   </p>
 </footer>
